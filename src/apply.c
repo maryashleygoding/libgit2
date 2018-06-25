@@ -404,6 +404,9 @@ static int apply_one(
 
 	delta = git_diff_get_delta(diff, i);
 
+	if (delta->status == GIT_DELTA_DELETED)
+		goto done;
+
 	if ((error = git_reader_read(&pre_contents,
 			preimage_reader, delta->old_file.path)) < 0 ||
 		(error = git_apply__patch(&post_contents, &filename, &mode,
